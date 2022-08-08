@@ -8,19 +8,44 @@ import { exampleTodos, Todo } from "../models/Todo";
  * @returns {Todos}
  */
 export const getTodos = async (): Promise<Todo[]> => {
-  // TODO: Implement your own service to get Todos
-  // It might look something like this:
-  // return fetch("/todos").then((r) => r.json());
-
-  return exampleTodos();
+  return fetch("http://localhost:3000/todos")
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
 };
 
 export const updateTodo = async (todo: Todo): Promise<void> => {
-  // TODO: Implement a real update service
-  return;
+  const url = 'http://localhost:3000/todos/' + todo.id
+
+  return fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
 };
 
 export const addTodo = async (todo: Partial<Todo>): Promise<void> => {
-  // TODO Implement a real add service
-  return;
+  return fetch("http://localhost:3000/todos", {
+      method: "POST",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
 };
+
+export const deleteTodo = async (todo: Todo): Promise<void> => {
+  const url = 'http://localhost:3000/todos/' + todo.id
+
+  return fetch(url, {
+      method: "DELETE"
+    })
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
+};
+
